@@ -57,6 +57,24 @@ class PreconnectManager {
             link.rel = 'preconnect';
             link.href = url;
             link.crossOrigin = credentials === 'include' ? 'use-credentials' : 'anonymous';
+
+            let attempts = 0;
+            const tryConnect = () => {
+                attempts++;
+                
+                const timeoutId = setTimeout(() => {
+                    document.head.removeChild(link);
+                    if (attempts < maxRetries) {
+                        setTimeout(tryConnect, this.retryDelay);
+                    } else {
+                        reject(new Error(`Preconnect timeout for ${url}`));
+                    }
+                }, timeout);
+
+                document.head.appendChild(link);
+            };
+
+            tryConnect();
         });
     }
 
