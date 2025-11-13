@@ -128,3 +128,10 @@ class PreconnectManager {
 }
 
 const preconnectManager = new PreconnectManager();
+
+preconnectManager.preconnect('https://api.example.com', {
+    credentials: 'include',
+    priority: 'high',
+    timeout: 2000,
+    retries: 3
+});
