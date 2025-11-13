@@ -110,4 +110,19 @@ class PreconnectManager {
     clearAll() {
         this.connections.clear();
     }
+
+    getStats() {
+        const stats = {
+            total: this.connections.size,
+            connected: 0,
+            pending: 0,
+            failed: 0
+        };
+
+        for (const conn of this.connections.values()) {
+            stats[conn.status]++;
+        }
+
+        return stats;
+    }
 }
