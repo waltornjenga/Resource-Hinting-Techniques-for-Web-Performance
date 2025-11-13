@@ -13,4 +13,10 @@ class PreconnectManager {
             this.connection.addEventListener('change', this.handleNetworkChange.bind(this));
         }
     }
+
+    handleNetworkChange() {
+        if (this.connection.saveData || this.connection.effectiveType === 'slow-2g') {
+            this.clearAll();
+        }
+    }
 }
