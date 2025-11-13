@@ -46,6 +46,7 @@ class PreconnectManager {
             connection.status = 'connected';
         } catch (error) {
             connection.status = 'failed';
+            this.scheduleRetry(url, options);
         }
 
         return connection;
@@ -90,6 +91,13 @@ class PreconnectManager {
 
             tryConnect();
         });
+    }
+
+    scheduleRetry(url, options) {
+        const backoffDelay = Math.min(30000, this.retryDelay * Math.pow(2, options.retries || 2));
+        setTimeout(() => {
+            this.preconnect(url, { ...options, retries: (options.retries || 2) - 1 });
+        }, backoffDelay);
     }
 
     clearAll() {
