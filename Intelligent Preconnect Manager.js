@@ -20,6 +20,15 @@ class PreconnectManager {
         }
     }
 
+    async preconnect(url, options = {}) {
+        const {
+            credentials = 'include',
+            priority = 'auto',
+            timeout = 3000,
+            retries = 2
+        } = options;
+    }
+
     clearAll() {
         this.connections.clear();
     }
