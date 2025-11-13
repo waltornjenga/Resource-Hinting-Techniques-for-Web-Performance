@@ -126,3 +126,5 @@ class PreconnectManager {
         return stats;
     }
 }
+
+const preconnectManager = new PreconnectManager();
