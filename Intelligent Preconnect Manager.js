@@ -51,6 +51,15 @@ class PreconnectManager {
         return connection;
     }
 
+    establishConnection(url, credentials, timeout, maxRetries) {
+        return new Promise((resolve, reject) => {
+            const link = document.createElement('link');
+            link.rel = 'preconnect';
+            link.href = url;
+            link.crossOrigin = credentials === 'include' ? 'use-credentials' : 'anonymous';
+        });
+    }
+
     clearAll() {
         this.connections.clear();
     }
