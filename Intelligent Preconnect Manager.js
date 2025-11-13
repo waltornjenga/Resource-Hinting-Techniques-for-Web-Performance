@@ -44,6 +44,9 @@ class PreconnectManager {
         try {
             await this.establishConnection(url, credentials, timeout, retries);
             connection.status = 'connected';
+            
+            setTimeout(() => this.cleanup(url), 10000);
+            
         } catch (error) {
             connection.status = 'failed';
             this.scheduleRetry(url, options);
@@ -98,6 +101,10 @@ class PreconnectManager {
         setTimeout(() => {
             this.preconnect(url, { ...options, retries: (options.retries || 2) - 1 });
         }, backoffDelay);
+    }
+
+    cleanup(url) {
+        this.connections.delete(url);
     }
 
     clearAll() {
