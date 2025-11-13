@@ -19,4 +19,8 @@ class PreconnectManager {
             this.clearAll();
         }
     }
+
+    clearAll() {
+        this.connections.clear();
+    }
 }
