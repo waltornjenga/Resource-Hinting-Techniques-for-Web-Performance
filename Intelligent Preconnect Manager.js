@@ -27,6 +27,19 @@ class PreconnectManager {
             timeout = 3000,
             retries = 2
         } = options;
+
+        if (this.connections.has(url)) {
+            return this.connections.get(url);
+        }
+
+        const connection = {
+            url,
+            status: 'pending',
+            createdAt: Date.now(),
+            attempts: 0
+        };
+
+        this.connections.set(url, connection);
     }
 
     clearAll() {
