@@ -71,6 +71,20 @@ class PreconnectManager {
                     }
                 }, timeout);
 
+                link.onload = () => {
+                    clearTimeout(timeoutId);
+                    resolve();
+                };
+
+                link.onerror = () => {
+                    clearTimeout(timeoutId);
+                    if (attempts < maxRetries) {
+                        setTimeout(tryConnect, this.retryDelay);
+                    } else {
+                        reject(new Error(`Preconnect failed for ${url}`));
+                    }
+                };
+
                 document.head.appendChild(link);
             };
 
