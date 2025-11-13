@@ -40,6 +40,15 @@ class PreconnectManager {
         };
 
         this.connections.set(url, connection);
+
+        try {
+            await this.establishConnection(url, credentials, timeout, retries);
+            connection.status = 'connected';
+        } catch (error) {
+            connection.status = 'failed';
+        }
+
+        return connection;
     }
 
     clearAll() {
